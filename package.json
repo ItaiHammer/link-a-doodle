@@ -1,0 +1,5 @@
+{
+  "dependencies": {
+    "is-url-http": "^2.3.9"
+  }
+}
