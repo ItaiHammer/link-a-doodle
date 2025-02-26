@@ -1,23 +1,24 @@
 import { useState } from 'react';
 import axios from 'axios';
 import { motion } from 'framer-motion';
-import './UrlShortener.module.css';
+import DarkModeToggle from './DarkModeToggle'; // Make sure this file exists as defined earlier
 import { ReactComponent as Logo } from '../icons/logo.svg';
-import AnimatedBackground from './AnimatedBackground';
+import './UrlShortener.module.css';
+import './styles.css';
 
 const AnimatedSubmitButton = ({ loading, success, onClick }) => {
     const buttonVariants = {
         initial: {
             width: '100%',
             borderRadius: '8px',
-            backgroundColor: '#DA667B',
+            backgroundColor: 'var(--submit-button-bg)',
         },
         loading: {
-            backgroundColor: 'rgba(0, 0, 0, 0)',
+            backgroundColor: 'rgba(0,0,0,0)',
             transition: { duration: 0.3 },
         },
         success: {
-            backgroundColor: '#71816d',
+            backgroundColor: 'var(--submit-button-success)',
             transition: { duration: 0.3 },
         },
     };
@@ -46,7 +47,7 @@ const AnimatedSubmitButton = ({ loading, success, onClick }) => {
                         width: 20,
                         height: 20,
                         borderRadius: '50%',
-                        backgroundColor: '#DA667B',
+                        backgroundColor: 'var(--submit-button-bg)',
                     }}
                     animate={pulseAnimation}
                 />
@@ -99,8 +100,8 @@ const UrlShortener = () => {
 
     return (
         <>
-            {/* Render animated background once */}
-            <AnimatedBackground />
+            {/* Dark Mode Toggle is rendered here. CSS positions it at top-right */}
+            <DarkModeToggle />
             <div className="container">
                 <motion.div
                     className="card"
@@ -108,15 +109,9 @@ const UrlShortener = () => {
                     animate={{ opacity: 1, scale: 1 }}
                     transition={{ duration: 0.5 }}
                 >
-                    <motion.div
-                        className="logo-container"
-                        initial={{ opacity: 0, y: -20 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        transition={{ delay: 0.2, duration: 0.5 }}
-                    >
-                        <Logo className="logo" />
-                    </motion.div>
-
+                    <div className="logo-wrapper">
+                        <Logo className="logo" width="50px" height="50px" />
+                    </div>
                     <form onSubmit={handleSubmit}>
                         <input
                             type="text"
