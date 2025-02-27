@@ -2,10 +2,18 @@ import isUrlHttp from 'is-url-http';
 
 export async function shortenUrl(req, res) {
     // method that creates an object in the db with its url to redirect to
-    let {redirectUrl} = req.body;
+
+    console.log('Redirecting to');
+
+    let { redirectUrl } = req.body;
+
+    console.log(redirectUrl);
+
     if (!redirectUrl && !isUrlHttp(redirectUrl)) {
-        return res.status(400).json({error: 'Valid url is required'});
+        return res.status(400).json({ error: 'Valid url is required' });
     }
+
+    res.send('1234abcd');
 }
 
 export async function redirectUrl(req, res) {
