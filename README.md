@@ -1,10 +1,10 @@
-# Link A Doodle
+![Link A Doodle Logo](frontend/src/icons/logo.svg 'Link A Doodle Logo')
 
 A sleek, modern URL shortener that makes sharing links simple.
 
 Built with React, Framer Motion, and an Express API, Link A Doodle features a clean interface that makes sharing and tracking links effortless and accountless.
 
-We also believe that services shouldn’t try to be more than they need to be. That’s why we intentionally designed Link A Doodle as a simple, accountless solution—because we know you don’t necessarily want to create an account just to share a link. In keeping with this minimalistic philosophy, our platform provides complete transparency: all users can view analytics for every link, ensuring you feel safe and informed when clicking on a Link A Doodle link.
+We also believe that services shouldn’t try to be more than they need to be. That’s why we intentionally designed Link A Doodle as a simple, accountless solution—because we know you don’t want to create an account just to share a link. In keeping with this minimalistic philosophy, our platform provides complete transparency: all users can view analytics for every link, ensuring you feel safe and informed when clicking on a Link A Doodle link.
 
 ---
 
@@ -45,7 +45,7 @@ We also believe that services shouldn’t try to be more than they need to be. T
 1. **Clone the Repository**
 
     ```bash
-    git clone https://github.com/yourusername/link-a-doodle.git
+    git clone https://github.com/ItaiHammer/link-a-doodle/link-a-doodle.git
     cd link-a-doodle
     ```
 
@@ -54,6 +54,7 @@ We also believe that services shouldn’t try to be more than they need to be. T
     Install dependencies in each folder:
 
     ```bash
+    npm install
     cd frontend && npm install
     cd ../backend && npm install
     cd ..
@@ -65,7 +66,7 @@ We also believe that services shouldn’t try to be more than they need to be. T
 
 ### Frontend
 
-From the `\frontend` directory:
+From the `/frontend` directory:
 
 ```bash
 npm start
@@ -73,7 +74,7 @@ npm start
 
 ### Backend
 
-From the `\backend` directory
+From the `/backend` directory
 
 ```bash
 npm run dev
@@ -91,11 +92,11 @@ npm run dev
 
 ## Environment Variables
 
-On the backend, create a `.env` file in the `\backend` folder:
+On the backend, create a `.env` file in the `/backend` folder:
 
 ```env
 # backend/.env
-PORT=5000
+PORT=3001
 ```
 
 ---
