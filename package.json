@@ -1,0 +1,21 @@
+{
+    "name": "link-a-doodle",
+    "version": "1.0.0",
+    "private": true,
+    "workspaces": [
+        "frontend",
+        "backend"
+    ],
+    "author": "Itai Hammer and Tal Berry",
+    "license": "ISC",
+    "scripts": {
+        "dev": "concurrently \"npm run dev:backend\" \"npm run dev:frontend\"",
+        "dev:backend": "npm --prefix backend run dev",
+        "dev:frontend": "npm --prefix frontend start",
+        "build": "npm --prefix frontend run build",
+        "start": "npm run build && npm --prefix frontend run serve"
+    },
+    "devDependencies": {
+        "concurrently": "^9.1.2"
+    }
+}
