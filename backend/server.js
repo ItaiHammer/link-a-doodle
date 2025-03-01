@@ -6,13 +6,13 @@ import mongoose from 'mongoose';
 dotenv.config();
 
 const app = express();
-app.get('/', (req, res) => {
-    res.send('API is running...');
+app.get("/", (req, res) => {
+  res.send("API is running...");
 });
 
 app.use(express.json());
 
-app.use('/api/url', urlRoutes);
+app.use("/api/url", urlRoutes);
 
 const PORT = process.env.PORT;
 
