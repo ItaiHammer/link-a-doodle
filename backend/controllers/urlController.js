@@ -9,7 +9,7 @@ export async function shortenUrl(req, res) {
         return res.status(400).json({ error: 'Valid url is required' });
     }
 
-    res.send('1234abcd');
+    
 }
 
 export async function redirectUrl(req, res) {

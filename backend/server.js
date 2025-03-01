@@ -1,6 +1,7 @@
 import express from 'express';
 import dotenv from 'dotenv';
 import urlRoutes from './routes/urlRoutes.js';
+import mongoose from 'mongoose';
 
 dotenv.config();
 
@@ -14,4 +15,15 @@ app.use(express.json());
 app.use('/api/url', urlRoutes);
 
 const PORT = process.env.PORT;
-app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
+
+mongoose.connect(process.env.MONGO_URI)
+.then(() => {
+    app.listen(PORT, () => {
+        console.log("Database connection is ready and " 
+        + `server running on port ${PORT}`);
+    })
+})
+.catch((error) => {
+    console.log("An error occurred while connecting to the database: " + error);    
+})
+
