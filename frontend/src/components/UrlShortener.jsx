@@ -76,7 +76,7 @@ function BuyMeACoffeeButton() {
       animate={{ y: 0, opacity: 1, scale: 1 }}
       transition={{ duration: 0.5, delay: 1 }}
     >
-      <img className="buy-me-a-coffee-icon" src={BuyMeACoffeeIcon} />
+      <img alt="" className="buy-me-a-coffee-icon" src={BuyMeACoffeeIcon} />
     </motion.a>
   );
 }
@@ -96,7 +96,7 @@ function UrlShortener() {
     setSuccess(false);
     try {
       const response = await axios.post(
-        "http://localhost:3001/api/url/shorten",
+        "http://localhost:5000/api/url/shorten",
         { redirectUrl: inputUrl }
       );
 
@@ -127,8 +127,6 @@ function UrlShortener() {
         >
           <motion.div
             className="logo-container"
-            // initial={{ opacity: 0, y: -20 }}
-            // animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.2, duration: 0.5 }}
           >
             <Logo className="logo" />

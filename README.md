@@ -29,6 +29,7 @@ We also believe that services shouldn’t try to be more than they need to be. T
 -   **Backend:** Express API
 -   **Styling:** CSS & CSS Modules
 -   **Deployment:** Vercel
+-   **Containerization:** Docker
 
 ---
 
