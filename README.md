@@ -30,8 +30,6 @@ If you find this project helpful, please consider starring it on GitHub. Your su
 
 ## 📖 About
 
-<img src="assets/demo.gif" alt="App Demo" width="400" height="200" style="border-radius: 10px;">
-
 A sleek, modern URL shortener that makes sharing links simple.
 
 Built with React, Framer Motion, Express API, MongoDB, and Docker, Link A Doodle features a clean interface that makes sharing and tracking links effortless and accountless.
