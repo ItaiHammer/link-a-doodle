@@ -58,7 +58,7 @@ We designed Link A Doodle as a simple, accountless solution because we know you 
 
     ```bash
     cd frontend && npm install
-    cd ../backend && npm install
+    cd ../api && npm install
     cd ..
     ```
 
@@ -78,7 +78,7 @@ npm start
 
 #### Backend
 
-From the `/backend` directory
+From the `/api` directory
 
 ```bash
 npm run dev
@@ -106,10 +106,10 @@ To run the application using Docker, follow these steps:
 
 ## Environment Variables
 
-On the backend, create a `.env` file in the `/backend` folder:
+On the backend, create a `.env` file in the `/api` folder:
 
 ```env
-# backend/.env
+# api/.env
 PORT=3001
 MONGO_URI=your_mongo_uri_here
 ```
