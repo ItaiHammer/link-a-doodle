@@ -2,9 +2,9 @@
 
 A sleek, modern URL shortener that makes sharing links simple.
 
-Built with React, Framer Motion, and an Express API, Link A Doodle features a clean interface that makes sharing and tracking links effortless and accountless.
+Built with React, Framer Motion, Express API, MongoDB, and Docker, Link A Doodle features a clean interface that makes sharing and tracking links effortless and accountless.
 
-We also believe that services shouldn’t try to be more than they need to be. That’s why we intentionally designed Link A Doodle as a simple, accountless solution—because we know you don’t want to create an account just to share a link. In keeping with this minimalistic philosophy, our platform provides complete transparency: all users can view analytics for every link, ensuring you feel safe and informed when clicking on a Link A Doodle link.
+We designed Link A Doodle as a simple, accountless solution because we know you don’t want to create an account just to share a link. Our platform provides complete transparency: all users can view analytics for every link, ensuring you feel safe and informed when clicking on a Link A Doodle link.
 
 ---
 
@@ -12,6 +12,7 @@ We also believe that services shouldn’t try to be more than they need to be. T
 
 -   **Accountless Service:** No sign-up required to shorten, share, or track your links.
 -   **Modern Animated UI:** Smooth transitions and animations powered by Framer Motion with a modern sleek React power user interface.
+-   **Docker Containerization:** Easily deploy and run the application locally using Docker.
 
 ---
 
@@ -27,6 +28,7 @@ We also believe that services shouldn’t try to be more than they need to be. T
 
 -   **Frontend:** React, Framer Motion, Axios
 -   **Backend:** Express API
+-   **Database:** MongoDB
 -   **Styling:** CSS & CSS Modules
 -   **Deployment:** Vercel
 -   **Containerization:** Docker
@@ -55,7 +57,6 @@ We also believe that services shouldn’t try to be more than they need to be. T
     Install dependencies in each folder:
 
     ```bash
-    npm install
     cd frontend && npm install
     cd ../backend && npm install
     cd ..
@@ -63,9 +64,11 @@ We also believe that services shouldn’t try to be more than they need to be. T
 
 ---
 
-## Running Locally
+## Running the Application
 
-### Frontend
+### Running Locally
+
+#### Frontend
 
 From the `/frontend` directory:
 
@@ -73,7 +76,7 @@ From the `/frontend` directory:
 npm start
 ```
 
-### Backend
+#### Backend
 
 From the `/backend` directory
 
@@ -81,13 +84,23 @@ From the `/backend` directory
 npm run dev
 ```
 
-### Both
+### Running with Docker
 
-In the root (`/`) directory of the project
+To run the application using Docker, follow these steps:
 
-```bash
-npm run dev
-```
+1. **Build and Start the Containers**
+
+    From the root directory, run:
+
+    ```bash
+    docker-compose up --build
+    ```
+
+    This command will build the Docker images and start the containers for the frontend, backend, and Nginx reverse proxy.
+
+2. **Access the Application**
+
+    Once the containers are up and running, you can access the application at `http://localhost`.
 
 ---
 
@@ -98,6 +111,7 @@ On the backend, create a `.env` file in the `/backend` folder:
 ```env
 # backend/.env
 PORT=3001
+MONGO_URI=your_mongo_uri_here
 ```
 
 ---
