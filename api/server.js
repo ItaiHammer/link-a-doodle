@@ -12,7 +12,23 @@ app.use(express.json());
 app.use("/api/url", urlRoutes);
 
 const PORT = process.env.PORT;
+const isDev = process.env.NODE_ENV === "development";
 const MONGO_URI = process.env.MONGO_URI;
+
+// root: website
+if (isDev) {
+    app.get("/", (req, res) => {
+      res.redirect("http://localhost:3000");
+    });
+  }
+  // otherwise nginx will serve the static files
+  
+  // redirect url
+  app.get("/:key", (req, res) => {
+    const key = req.params.key;
+  
+    res.send(`Got key: ${key}`);
+  });
 
 mongoose.connect(MONGO_URI)
     .then(() => {

@@ -144,3 +144,4 @@ dist
 
 # Frontend build output
 /frontend/build
+.vercel

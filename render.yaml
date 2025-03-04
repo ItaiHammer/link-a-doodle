@@ -1,0 +1,28 @@
+services:
+  - type: web
+    name: api
+    env: docker
+    dockerfilePath: ./api/Dockerfile
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: MONGO_URI
+        fromDatabase:
+          name: your-database-name
+          property: connectionString
+      - key: PORT
+        value: 5000
+    ports:
+      - 5000
+
+  - type: web
+    name: frontend
+    env: docker
+    dockerfilePath: ./frontend/Dockerfile
+    envVars:
+      - key: API_URL
+        value: http://api:5000
+    ports:
+      - 80
+    dependsOn:
+      - api

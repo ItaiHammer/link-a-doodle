@@ -162,4 +162,3 @@ Contributions are welcome! Please open an issue or submit a pull request if you 
 This project is licensed under the [MIT License](LICENSE).
 
 [Back to top](#top)
-````
