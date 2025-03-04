@@ -142,11 +142,10 @@ To run the application using Docker, follow these steps:
 
 ## 🔧 Environment Variables
 
-On the backend, create a `.env` file in the `/api` folder:
+Create a `.env` file in the root directory:
 
 ```env
-# api/.env
-PORT=5000
+# .env
 MONGO_URI=your_mongo_uri_here
 ```
 
@@ -163,3 +162,4 @@ Contributions are welcome! Please open an issue or submit a pull request if you 
 This project is licensed under the [MIT License](LICENSE).
 
 [Back to top](#top)
+````

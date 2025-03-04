@@ -2,7 +2,6 @@ import express from 'express';
 import dotenv from 'dotenv';
 import urlRoutes from './routes/urlRoutes.js';
 import mongoose from 'mongoose';
-import path from 'path';
 
 dotenv.config();
 
@@ -13,16 +12,7 @@ app.use(express.json());
 app.use("/api/url", urlRoutes);
 
 const PORT = process.env.PORT;
-const isDev = process.env.NODE_ENV === 'development';
 const MONGO_URI = process.env.MONGO_URI;
-
-app.get("/", (req, res) => {
-    if (isDev) {
-        res.redirect("http://localhost:3000");
-    } else {
-        res.sendFile(path.resolve(__dirname, "../frontend/build", "index.html"));
-    }
-});
 
 mongoose.connect(MONGO_URI)
     .then(() => {
@@ -33,5 +23,5 @@ mongoose.connect(MONGO_URI)
     })
     .catch((error) => {
         console.log("An error occurred while connecting to the database: " + error);    
-    })
+    });
 
