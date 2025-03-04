@@ -2,14 +2,22 @@
   "version": 2,
   "builds": [
     {
-      "src": "docker-compose.yaml",
-      "use": "@vercel/docker"
+      "src": "frontend/package.json",
+      "use": "@vercel/node"
+    },
+    {
+      "src": "api/package.json",
+      "use": "@vercel/node"
     }
   ],
   "routes": [
     {
+      "src": "/api/(.*)",
+      "dest": "/api/$1"
+    },
+    {
       "src": "/(.*)",
-      "dest": "/$1"
+      "dest": "/frontend/$1"
     }
   ]
 }
