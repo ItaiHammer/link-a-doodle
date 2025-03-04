@@ -2,9 +2,12 @@
   "name": "link-a-doodle",
   "version": "1.0.0",
   "scripts": {
+    "install": "npm run install:frontend && npm run install:api",
+    "install:frontend": "cd frontend && npm install",
+    "install:api": "cd api && npm install",
     "build": "npm run build:frontend && npm run build:api",
-    "build:frontend": "cd frontend && npm install && npm run build",
-    "build:api": "cd api && npm install",
+    "build:frontend": "cd frontend && npm run build",
+    "build:api": "cd api && npm run build",
     "start": "npm run start:frontend & npm run start:api",
     "start:frontend": "cd frontend && npm start",
     "start:api": "cd api && npm start"
