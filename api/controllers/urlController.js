@@ -1,5 +1,5 @@
 import isUrlHttp from 'is-url-http';
-import Link from '../models/Link';
+import Link from '../models/Link.js';
 import { nanoid } from 'nanoid';
 
 export async function shortenUrl(req, res) {
@@ -17,6 +17,8 @@ export async function shortenUrl(req, res) {
         key: shortenedUrl,
         redirectUrl: redirectUrl
     });
+
+    await link.save();
 
     res.status(201).json({ shortenUrl: shortenedUrl });
 }
