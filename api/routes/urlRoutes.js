@@ -8,7 +8,7 @@ import {
 const router = express.Router();
 
 router.post('/shorten', shortenUrl);
-router.get('/:id', redirectUrl);
 router.get('/analytics/:id', getUrlAnalytics);
+router.get('/:id', redirectUrl);
 
 export default router;
