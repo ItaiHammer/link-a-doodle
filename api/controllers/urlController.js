@@ -18,7 +18,7 @@ export async function shortenUrl(req, res) {
         redirectUrl: redirectUrl,
     });
 
-    res.status(201).json({shortenedUrl: shortenedUrl});
+    return res.status(201).json({shortUrl: shortenedUrl});
 }
 
 export async function redirectUrl(req, res) {
@@ -34,7 +34,9 @@ export async function redirectUrl(req, res) {
         }
 
         // Track Analytics
-        link.clicks.push(Date.now());
+        const ip = req.headers['x-forwarded-for'] || req.socket.remoteAddress;
+
+        link.clicks.push({timestamp: new Date(), ip});
         await link.save();
 
         return res.redirect(link.redirectUrl);
@@ -45,5 +47,21 @@ export async function redirectUrl(req, res) {
 
 export async function getUrlAnalytics(req, res) {
     // finds the id in the db and returns the saved analytics
-    console.log('Get Url Analytics');
+    const {id} = req.params;
+
+    try {
+        const link = await Link.findOne({key: id});
+
+        if (!link) {
+            return res.status(404).json({error: 'Link not found'});
+        }
+
+        return res.json({
+            createdAt: link.createdAt,
+            totalClicks: link.clicks.length,
+            clicks: link.clicks,
+        });
+    } catch (error) {
+        return res.status(500).json({error: 'Server Error'});
+    }
 }

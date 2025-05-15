@@ -1,9 +1,18 @@
 import mongoose from 'mongoose';
 
+const clickSchema = new mongoose.Schema({
+    timestamp: {
+        type: Date,
+        default: Date.now,
+    },
+    ipAddress: String,
+});
+
 const linkSchema = new mongoose.Schema({
     key: {
         type: String,
         required: true,
+        unique: true,
     },
     redirectUrl: {
         type: String,
@@ -13,10 +22,7 @@ const linkSchema = new mongoose.Schema({
         type: Date,
         default: Date.now,
     },
-    clicks: {
-        type: [Date],
-        default: [],
-    }
+    clicks: [clickSchema],
 });
 
 export default mongoose.model('Link', linkSchema);
