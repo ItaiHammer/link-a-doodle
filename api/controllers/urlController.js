@@ -5,6 +5,11 @@ import {nanoid} from 'nanoid';
 export async function shortenUrl(req, res) {
     // method that creates an object in the db with its url to redirect to
 
+    console.log('shortenUrl called');
+    console.log(req.body);
+    console.log(req.body.redirectUrl);
+    console.log("-----------------------");
+
     let {redirectUrl} = req.body;
 
     if (!redirectUrl || !isUrlHttp(redirectUrl)) {

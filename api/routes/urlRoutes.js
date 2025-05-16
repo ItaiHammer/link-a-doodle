@@ -9,6 +9,6 @@ const router = express.Router();
 
 router.post('/shorten', shortenUrl);
 router.get('/analytics/:id', getUrlAnalytics);
-router.get('/:id', redirectUrl);
+router.get('/redirect/:id', redirectUrl);
 
 export default router;
