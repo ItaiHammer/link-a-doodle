@@ -16,14 +16,14 @@ export async function shortenUrl(req, res) {
         return res.status(400).json({error: 'Valid url is required'});
     }
 
-    const shortenedUrl = nanoid(4);
+    const key = nanoid(4);
 
-    const link = await Link.create({
-        key: shortenedUrl,
+    await Link.create({
+        key,
         redirectUrl: redirectUrl,
     });
 
-    return res.status(201).json({shortUrl: shortenedUrl});
+    return res.status(201).json({key});
 }
 
 export async function redirectUrl(req, res) {

@@ -102,7 +102,7 @@ function UrlShortener() {
 
       console.log("Response:", response);
 
-      setShortUrl(response.data.shortUrl);
+      setShortUrl(`${window.document.URL}${response.data.key}`);
       setLoading(false);
       setSuccess(true);
       setInputUrl("");
