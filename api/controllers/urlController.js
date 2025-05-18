@@ -2,22 +2,26 @@ import isUrlHttp from 'is-url-http';
 import Link from '../models/Link.js';
 import {nanoid} from 'nanoid';
 
+/** 
+ * @description Creates a key for the given URL and saves both to the database
+ * 
+ * @param {Object} req - The request object containing the URL to shorten
+ * @param {Object} res - The response object to send the result
+ * @returns {Object} - The shortened URL key
+*/
 export async function shortenUrl(req, res) {
-    // method that creates an object in the db with its url to redirect to
+    const {redirectUrl} = req.body;
 
-    console.log('shortenUrl called');
-    console.log(req.body);
-    console.log(req.body.redirectUrl);
-    console.log("-----------------------");
 
-    let {redirectUrl} = req.body;
-
+    // Check if the redirectUrl is provided and is a valid HTTP URL
     if (!redirectUrl || !isUrlHttp(redirectUrl)) {
         return res.status(400).json({error: 'Valid url is required'});
     }
 
-    const key = nanoid(4);
+    // Generate key 
+    const key = generateUniqueKey(4);
 
+    // Add the key and redirectURL to the database
     await Link.create({
         key,
         redirectUrl: redirectUrl,
@@ -26,19 +30,43 @@ export async function shortenUrl(req, res) {
     return res.status(201).json({key});
 }
 
-export async function redirectUrl(req, res) {
-    // finds the id in the db and redirects to the saved url
+/** 
+ * @description Generates a unique key of the specified length
+ * 
+ * @param {number} length - The length of the key to generate
+ * @returns {string} - A unique key
+*/
+async function generateUniqueKey(length) {
+    let key;
+    let exists = true;
 
+    do {
+        key = nanoid(length);
+        exists = await Link.exists({key});
+    } while (exists);
+    return key;
+}
+
+/**
+ * @description Redirects to the saved URL based on the provided key
+ * 
+ * @param {Object} req - The request object containing the key to look up
+ * @param {Object} res - The response object to redirect to the saved URL
+ * @returns {void}
+*/
+export async function redirectUrl(req, res) {
     const {id} = req.params;
 
     try {
+        // Find the link in the database
         const link = await Link.findOne({key: id});
 
+        // If the link is not found, return a 404 error
         if (!link) {
             return res.status(404).json({error: 'Link not found'});
         }
 
-        // Track Analytics
+        // Track Analytics (ip address and timestamp)
         const ip = req.headers['x-forwarded-for'] || req.socket.remoteAddress;
 
         link.clicks.push({timestamp: new Date(), ip});
@@ -50,13 +78,21 @@ export async function redirectUrl(req, res) {
     }
 }
 
+/**
+ * 
+ * @description Retrieves the analytics for a given key
+ * @param {Object} req - The request object containing the key to look up
+ * @param {Object} res - The response object to send the analytics data
+ * @returns {Object} - The analytics data for the key
+*/
 export async function getUrlAnalytics(req, res) {
-    // finds the id in the db and returns the saved analytics
     const {id} = req.params;
 
     try {
+        // Find the link in the database
         const link = await Link.findOne({key: id});
 
+        // If the link is not found, return a 404 error
         if (!link) {
             return res.status(404).json({error: 'Link not found'});
         }
