@@ -36,16 +36,13 @@ if (!isDev) {
 }
 
 // Short link redirect — ONLY if ID is valid
-app.get('/:id', async (req, res, next) => {
+app.get('/:id', async (req, res) => {
   const { id } = req.params;
-
-  // Optional: check format if you want (e.g., only 4-8 alphanumeric chars)
-  if (id.length > 12 || id.includes('/')) return next();
 
   try {
     const link = await Link.findOne({ key: id });
 
-    if (!link) return next(); // Not found, fallback to frontend route
+    if (!link) return res.redirect('/error'); 
 
     const ip = req.headers['x-forwarded-for'] || req.socket.remoteAddress;
     link.clicks.push({ timestamp: new Date(), ip });
@@ -71,7 +68,7 @@ if (!isDev) {
   });
 }
 
-// Start server
+// Connect to database and start server
 mongoose
   .connect(MONGO_URI)
   .then(() => {

@@ -12,14 +12,13 @@ import {nanoid} from 'nanoid';
 export async function shortenUrl(req, res) {
     const {redirectUrl} = req.body;
 
-
     // Check if the redirectUrl is provided and is a valid HTTP URL
     if (!redirectUrl || !isUrlHttp(redirectUrl)) {
         return res.status(400).json({error: 'Valid url is required'});
     }
 
     // Generate key 
-    const key = generateUniqueKey(4);
+    const key = await generateUniqueKey(4);
 
     // Add the key and redirectURL to the database
     await Link.create({
