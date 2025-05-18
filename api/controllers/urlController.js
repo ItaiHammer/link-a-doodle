@@ -26,30 +26,6 @@ export async function shortenUrl(req, res) {
     return res.status(201).json({key});
 }
 
-export async function redirectUrl(req, res) {
-    // finds the id in the db and redirects to the saved url
-
-    const {id} = req.params;
-
-    try {
-        const link = await Link.findOne({key: id});
-
-        if (!link) {
-            return res.status(404).json({error: 'Link not found'});
-        }
-
-        // Track Analytics
-        const ip = req.headers['x-forwarded-for'] || req.socket.remoteAddress;
-
-        link.clicks.push({timestamp: new Date(), ip});
-        await link.save();
-
-        return res.redirect(link.redirectUrl);
-    } catch (error) {
-        return res.status(500).json({error: 'Server Error'});
-    }
-}
-
 export async function getUrlAnalytics(req, res) {
     // finds the id in the db and returns the saved analytics
     const {id} = req.params;

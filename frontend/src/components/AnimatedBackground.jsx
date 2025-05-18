@@ -1,4 +1,4 @@
-import React, { useMemo } from "react";
+import React, { useMemo, useState, useEffect } from "react";
 import { motion } from "framer-motion";
 
 import Asset1 from "../icons/scatter/Asset 1.svg";
@@ -26,7 +26,7 @@ const assets = [
 const getRandomInt = (min, max) =>
   Math.floor(Math.random() * (max - min + 1)) + min;
 
-function AnimatedBackground() {
+function AnimatedBackground({ darkMode }) {
   const iconsCount = 40;
 
   const icons = useMemo(() => {
@@ -54,6 +54,10 @@ function AnimatedBackground() {
             opacity: 0.15,
             width: "30px",
             height: "30px",
+            ...(darkMode && {
+              filter:
+                "brightness(0) saturate(100%) invert(13%) sepia(6%) saturate(1100%) hue-rotate(180deg) brightness(95%) contrast(90%)",
+            }),
           }}
           initial={{ top: `${startTop}%`, rotate: angle }}
           animate={{ top: `${endTop}%` }}
@@ -67,7 +71,7 @@ function AnimatedBackground() {
         />
       );
     });
-  }, [iconsCount]);
+  }, [iconsCount, darkMode]);
 
   return (
     <div

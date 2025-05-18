@@ -3,8 +3,8 @@ import axios from "axios";
 import { motion } from "framer-motion";
 import BuyMeACoffeeIcon from "../icons/bmc-full-logo.svg";
 import { ReactComponent as Logo } from "../icons/logo.svg";
-import "./UrlShortener.module.css";
-import AnimatedBackground from "./AnimatedBackground";
+import AnimatedBackground from "../components/AnimatedBackground";
+import DarkModeToggle from "../components/DarkModeToggle";
 
 function AnimatedSubmitButton({ loading, success, onClick }) {
   const buttonVariants = {
@@ -81,7 +81,7 @@ function BuyMeACoffeeButton() {
   );
 }
 
-function UrlShortener() {
+function Home({ darkMode }) {
   const [inputUrl, setInputUrl] = useState("");
   const [shortUrl, setShortUrl] = useState("");
   const [loading, setLoading] = useState(false);
@@ -96,7 +96,7 @@ function UrlShortener() {
     setSuccess(false);
     try {
       const response = await axios.post(
-        "http://localhost:5000/api/url/shorten",
+        "/api/url/shorten",
         { redirectUrl: inputUrl }
       );
 
@@ -161,4 +161,4 @@ function UrlShortener() {
   );
 }
 
-export default UrlShortener;
+export default Home;

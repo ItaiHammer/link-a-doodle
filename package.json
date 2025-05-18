@@ -5,11 +5,14 @@
     "install": "npm run install:frontend && npm run install:api",
     "install:frontend": "cd frontend && npm install",
     "install:api": "cd api && npm install",
-    "build": "npm run build:frontend && npm run build:api",
+    "build": "npm run build:frontend",
     "build:frontend": "cd frontend && npm run build",
-    "build:api": "cd api && npm run build",
-    "start": "npm run start:frontend & npm run start:api",
+    "dev": "concurrently \"npm run start:frontend\" \"npm run dev:api\"",
     "start:frontend": "cd frontend && npm start",
-    "start:api": "cd api && npm start"
+    "dev:api": "cd api && npm run dev",
+    "start": "cd api && npm start"
+  },
+  "devDependencies": {
+    "concurrently": "^8.2.2"
   }
 }
