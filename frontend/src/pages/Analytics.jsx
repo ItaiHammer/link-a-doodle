@@ -25,7 +25,6 @@ function Analytics({ darkMode }) {
 
   return (
     <>
-      <AnimatedBackground darkMode={darkMode} />
       <div className="container">
         <motion.div
           className="card"

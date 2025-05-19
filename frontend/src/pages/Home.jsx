@@ -82,6 +82,7 @@ function BuyMeACoffeeButton() {
 }
 
 function Home({ darkMode }) {
+  const [customKey, setCustomKey] = useState("");
   const [inputUrl, setInputUrl] = useState("");
   const [shortUrl, setShortUrl] = useState("");
   const [loading, setLoading] = useState(false);
@@ -95,29 +96,104 @@ function Home({ darkMode }) {
     setError("");
     setSuccess(false);
     try {
-      const response = await axios.post(
-        "/api/url/shorten",
-        { redirectUrl: inputUrl }
+      console.groupCollapsed(
+        '%c┌─[ 🌐 URL Shortener Request ]──────────────╮',
+        'color: rgb(177, 177, 177); font-family: monospace; font-size: 12px; font-weight: bold;'
       );
 
-      console.log("Response:", response);
+      console.log(
+        '%c• Input URL:     %c' + inputUrl,
+        'color: #f1e0c5; font-family: monospace;',
+        'color: white; font-family: monospace;'
+      );
+
+      console.log(
+        '%c• Custom Key:    %c' + (customKey || 'N/A'),
+        'color: #f1e0c5; font-family: monospace;',
+        'color: white; font-family: monospace;'
+      );
+
+      console.log(
+        '%c• Timestamp:     %c' + new Date().toLocaleTimeString(),
+        'color: #f1e0c5; font-family: monospace;',
+        'color: white; font-family: monospace;'
+      );
+
+      console.groupEnd();
+
+
+      const response = await axios.post(
+        "/api/url/shorten",
+        { redirectUrl: inputUrl, customKey }
+      );
+
+      console.groupCollapsed(
+        '%c╰─[ 🎉 Shorten Response Received ]──────────╯',
+        'color: #71816d; font-family: monospace; font-size: 12px; font-weight: bold;'
+      );
+
+
+      console.log(
+        '%c• Short URL:      %c' + `${window.location.origin}/${response.data.key}`,
+        'color: #da667b; font-family: monospace;',
+        'color: white; font-family: monospace;'
+      );
+
+      console.log(
+        '%c• Key:            %c' + response.data.key,
+        'color: #f1e0c5; font-family: monospace;',
+        'color: white; font-family: monospace;'
+      );
+
+      console.log(
+        '%c• Full Response:  ',
+        'color: #f1e0c5; font-family: monospace;'
+      );
+      console.log(response);
 
       setShortUrl(`${window.document.URL}${response.data.key}`);
       setLoading(false);
       setSuccess(true);
       setInputUrl("");
+      setCustomKey("");
       setTimeout(() => {
         setSuccess(false);
       }, 2000);
     } catch (err) {
+      console.groupCollapsed(
+        '%c╰─[ ❌ Shorten Request Failed ]─────────────╯',
+        'color: #ff6b6b; font-family: monospace; font-size: 12px; font-weight: bold;'
+      );
+
+
+      console.log(
+        '%c• Timestamp:     %c' + new Date().toLocaleTimeString(),
+        'color: #f1e0c5; font-family: monospace;',
+        'color: white; font-family: monospace;'
+      );
+
+      console.log(
+        '%c• Error Message: %c' + (err?.message || 'Unknown Error'),
+        'color: #f1e0c5; font-family: monospace;',
+        'color: white; font-family: monospace;'
+      );
+
+      console.log(
+        '%c• Full Error:    ',
+        'color: #f1e0c5; font-family: monospace;'
+      );
+      console.error(err);
+
+      console.groupEnd();
+
       setError("Failed to shorten URL");
       setLoading(false);
     }
+
   }
 
   return (
     <>
-      <AnimatedBackground />
       <div className="container">
         <motion.div
           className="card"
@@ -133,6 +209,12 @@ function Home({ darkMode }) {
           </motion.div>
 
           <form onSubmit={handleSubmit}>
+            <input
+              type="text"
+              placeholder="Custom Name (optional)"
+              value={customKey}
+              onChange={(e) => setCustomKey(e.target.value)}
+            />
             <input
               type="text"
               placeholder="Enter your URL here"
