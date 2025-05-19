@@ -20,10 +20,11 @@ body.dark-mode {
 
 .container {
   width: 100vw;
-  padding: 20px;
   display: flex;
   justify-content: center;
   align-items: center;
+  padding-top: 20px;
+  padding-bottom: 20px;
 }
 
 .card {
@@ -155,6 +156,7 @@ body.dark-mode .result a {
   justify-content: center;
   align-items: center;
   z-index: 100;
+  position: absolute;
 }
 
 .buy-me-a-coffee-icon {
