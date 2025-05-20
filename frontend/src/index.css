@@ -31,10 +31,10 @@ body.dark-mode {
   background: #ffffff;
   width: auto;
   padding: 40px;
-  border-radius: 16px;
+  border-radius: 30px;
   box-shadow: 0px 8px 16px rgba(52, 42, 33, 0.2);
   text-align: center;
-  max-width: 300px; /* originally 500px */
+  max-width: 380px; /* originally 500px */
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -63,18 +63,22 @@ body.dark-mode .card {
 }
 
 form {
+  width: 100%;
   display: flex;
   flex-direction: column;
+  justify-content: center;
+  align-items: center;
   gap: 15px;
 }
 
 input {
+  /* width: 100%; */
   color: #676e8b;
   background: #f4f6f8;
-  padding: 12px;
+  padding: 20px 16px 20px 16px;
   font-size: 1rem;
   border: 2px solid transparent;
-  border-radius: 8px;
+  border-radius: 12px;
   font-family: "Inter", sans-serif;
   font-optical-sizing: auto;
   font-style: normal;
@@ -97,23 +101,55 @@ input:focus {
 }
 
 .submit-button {
+  width: 100%;
   background: #da667b;
-  border-radius: 8px;
+  border-radius: 12px;
   color: #fff;
   border: none;
   cursor: pointer;
   outline: none;
   padding: 12px;
-  font-size: 1rem;
+
   align-self: center;
-  width: auto;
   display: flex;
   align-items: center;
   justify-content: center;
+  gap: 5px;
+
+  font-size: 1rem;
   font-family: "Inter", sans-serif;
   font-optical-sizing: auto;
   font-style: normal;
   font-weight: bold;
+}
+
+.analytics-button {
+  width: 100%;
+  background: #F4F6F8;
+  border-radius: 12px;
+  border: rgba(120, 127, 152, 0.14) 2px solid;
+  cursor: pointer;
+  outline: none;
+  padding: 12px;
+
+  align-self: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+  
+  color: #787F98;
+  font-size: 1rem;
+  font-family: "Inter", sans-serif;
+  font-optical-sizing: auto;
+  font-style: normal;
+  font-weight: bold;
+}
+
+body.dark-mode .analytics-button {
+  background: #1e2025;
+  color: #fff;
+  border: rgba(120, 127, 152, 0.14) 2px solid;
 }
 
 .error {

@@ -2,7 +2,8 @@ import { useState } from "react";
 import axios from "axios";
 import { motion } from "framer-motion";
 import BuyMeACoffeeIcon from "../icons/bmc-full-logo.svg";
-import { ReactComponent as Logo } from "../icons/logo.svg";
+import { ReactComponent as Icon } from "../icons/icon.svg";
+import { ReactComponent as IconBlack } from "../icons/icon.svg";
 import AnimatedBackground from "../components/AnimatedBackground";
 import DarkModeToggle from "../components/DarkModeToggle";
 
@@ -10,7 +11,6 @@ function AnimatedSubmitButton({ loading, success, onClick }) {
   const buttonVariants = {
     initial: {
       width: "100%",
-      borderRadius: "8px",
       backgroundColor: "#DA667B",
     },
     loading: {
@@ -59,7 +59,10 @@ function AnimatedSubmitButton({ loading, success, onClick }) {
           />
         </svg>
       ) : (
-        "Shorten URL"
+        <>
+          <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 24 24"><path fill="#fff" d="M8.59 16.58L13.17 12L8.59 7.41L10 6l6 6l-6 6z"/></svg>
+          Shorten URL
+        </>
       )}
     </motion.button>
   );
@@ -192,6 +195,12 @@ function Home({ darkMode }) {
 
   }
 
+  function handleGetAnalytics(e) {
+    e.preventDefault();
+
+    window.location.href = `/analytics/${inputUrl.split("/").pop()}`;
+  }
+
   return (
     <>
       <div className="container">
@@ -205,27 +214,38 @@ function Home({ darkMode }) {
             className="logo-container"
             transition={{ delay: 0.2, duration: 0.5 }}
           >
-            <Logo className="logo" />
+            {darkMode ? (
+              <IconBlack className="logo" />
+            ) : (
+              <Icon className="logo" />
+            )}
           </motion.div>
 
           <form onSubmit={handleSubmit}>
-            <input
-              type="text"
-              placeholder="Custom Name (optional)"
-              value={customKey}
-              onChange={(e) => setCustomKey(e.target.value)}
-            />
             <input
               type="text"
               placeholder="Enter your URL here"
               value={inputUrl}
               onChange={(e) => setInputUrl(e.target.value)}
             />
+            <input
+              type="text"
+              placeholder="Custom Name (optional)"
+              value={customKey}
+              onChange={(e) => setCustomKey(e.target.value)}
+            />
             <AnimatedSubmitButton
               loading={loading}
               success={success}
               onClick={handleSubmit}
             />
+            <button
+              className="analytics-button"
+              onClick={handleGetAnalytics}
+            >
+              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><g fill="none" stroke="#787f98" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"><path d="M3.5 4v13.5a3 3 0 0 0 3 3H20"/><path d="m6.5 15l4.5-4.5l3.5 3.5L20 8.5"/></g></svg>
+              Get Analytics
+            </button>
           </form>
           {error && <p className="error">{error}</p>}
           {shortUrl && (
