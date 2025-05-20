@@ -1,11 +1,8 @@
 import { useState } from "react";
 import axios from "axios";
 import { motion } from "framer-motion";
-import BuyMeACoffeeIcon from "../icons/bmc-full-logo.svg";
 import { ReactComponent as Icon } from "../icons/icon.svg";
 import { ReactComponent as IconBlack } from "../icons/icon.svg";
-import AnimatedBackground from "../components/AnimatedBackground";
-import DarkModeToggle from "../components/DarkModeToggle";
 
 function AnimatedSubmitButton({ loading, success, onClick }) {
   const buttonVariants = {
@@ -65,22 +62,6 @@ function AnimatedSubmitButton({ loading, success, onClick }) {
         </>
       )}
     </motion.button>
-  );
-}
-
-function BuyMeACoffeeButton() {
-  return (
-    <motion.a
-      className="buy-me-a-coffee-container"
-      href="https://buymeacoffee.com/itaihammer"
-      target="_blank"
-      rel="noopener noreferrer"
-      initial={{ y: 20, opacity: 0, scale: 0.95 }}
-      animate={{ y: 0, opacity: 1, scale: 1 }}
-      transition={{ duration: 0.5, delay: 1 }}
-    >
-      <img alt="" className="buy-me-a-coffee-icon" src={BuyMeACoffeeIcon} />
-    </motion.a>
   );
 }
 
@@ -198,7 +179,10 @@ function Home({ darkMode }) {
   function handleGetAnalytics(e) {
     e.preventDefault();
 
-    window.location.href = `/analytics/${inputUrl.split("/").pop()}`;
+    const key = inputUrl.split("/").pop();
+    if (key) {
+      window.location.href = `/analytics/${key}`;
+    }
   }
 
   return (
@@ -243,7 +227,7 @@ function Home({ darkMode }) {
               className="analytics-button"
               onClick={handleGetAnalytics}
             >
-              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><g fill="none" stroke="#787f98" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"><path d="M3.5 4v13.5a3 3 0 0 0 3 3H20"/><path d="m6.5 15l4.5-4.5l3.5 3.5L20 8.5"/></g></svg>
+              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><g fill="none" stroke={darkMode ? "#fff" : "#787f98"} stroke-linecap="round" stroke-linejoin="round" stroke-width="2"><path d="M3.5 4v13.5a3 3 0 0 0 3 3H20"/><path d="m6.5 15l4.5-4.5l3.5 3.5L20 8.5"/></g></svg>
               Get Analytics
             </button>
           </form>
@@ -258,7 +242,6 @@ function Home({ darkMode }) {
           )}
         </motion.div>
       </div>
-      <BuyMeACoffeeButton />
     </>
   );
 }

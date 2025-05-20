@@ -3,6 +3,9 @@ import DarkModeToggle from "./components/DarkModeToggle";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import { useState, useEffect } from "react";
 
+// components
+import BuyMeACoffeeButton from "./components/BuyMeACoffeeButton";
+
 // pages
 import Home from "./pages/Home";
 import Analytics from "./pages/Analytics";
@@ -39,6 +42,7 @@ function App() {
     <>
       <DarkModeToggle darkMode={darkMode} setDarkMode={setDarkMode} />
       <AnimatedBackground darkMode={darkMode} />
+      <BuyMeACoffeeButton />
       <Router>
         <Routes>
           <Route path="/" element={<Home darkMode={darkMode} />} />
