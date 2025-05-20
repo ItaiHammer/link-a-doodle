@@ -2,6 +2,8 @@ import isUrlHttp from 'is-url-http';
 import Link from '../models/Link.js';
 import {nanoid} from 'nanoid';
 
+const reserved = ['analytics', 'shorten', 'analyze', 'error', 'api'];
+
 /** 
  * @description Creates a key for the given URL and saves both to the database
  * 
@@ -10,20 +12,38 @@ import {nanoid} from 'nanoid';
  * @returns {Object} - The shortened URL key
 */
 export async function shortenUrl(req, res) {
-    const {redirectUrl} = req.body;
+    const { redirectUrl, customKey } = req.body;
 
     // Check if the redirectUrl is provided and is a valid HTTP URL
     if (!redirectUrl || !isUrlHttp(redirectUrl)) {
-        return res.status(400).json({error: 'Valid url is required'});
+        return res.status(400).json({error: 'No or invalid URL provided'});
     }
 
-    // Generate key 
-    const key = await generateUniqueKey(4);
+    // Check and use customKey if provided
+    let key;
+    if (customKey) {
+        // Check if customKey matches a reserved route
+        if (reserved.includes(customKey.toLowerCase())) {
+            return res.status(400).json({error: 'Custom key is a reserved route'});
+        }
+    
+        // Check if customKey matches specified format
+        if (!/^[a-zA-Z0-9_-]{3,30}$/.test(customKey)) {
+            return res.status(400).json({error: 'Custom key does not follow the format'});
+        }
+
+        const exists = await Link.exists({key: customKey});
+        if (exists) {
+            return res.status(400).json({error: 'Custom key already exists'});
+        }
+
+        key = customKey;
+    } else {key = await generateUniqueKey(4);}
 
     // Add the key and redirectURL to the database
     await Link.create({
         key,
-        redirectUrl: redirectUrl,
+        redirectUrl,
     });
 
     return res.status(201).json({key});
