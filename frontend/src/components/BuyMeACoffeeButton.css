@@ -1,0 +1,36 @@
+.buy-me-a-coffee-container {
+  width: 100vw;
+  height: fit-content;
+  position: fixed;
+  bottom: 20px;
+  left: 0;
+  opacity: 1;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+
+  position: absolute;
+  z-index: 0;
+}
+
+.buy-me-a-coffee-icon {
+  background-color: #da667b;
+  width: 8rem;
+  padding: 0.5rem 1rem;
+  border-radius: 5px;
+  box-shadow: 0px 8px 16px rgba(52, 42, 33, 0.2);
+  transition: opacity 0.3s ease, transform 0.3s ease;
+}
+
+@media (hover: hover) and (pointer: fine) {
+    .buy-me-a-coffee-icon {
+        opacity: 0.6;
+    }
+
+  .buy-me-a-coffee-icon:hover {
+    opacity: 1;
+    transform: scale(1.1);
+  }
+}

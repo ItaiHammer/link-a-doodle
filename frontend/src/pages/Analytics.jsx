@@ -2,27 +2,10 @@ import { useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import axios from "axios";
-import BuyMeACoffeeIcon from "../icons/bmc-full-logo.svg";
 import { ReactComponent as Logo } from "../icons/logo.svg";
 import { ReactComponent as Icon } from "../icons/icon.svg";
 import { ReactComponent as IconBlack } from "../icons/icon-black-highlights.svg";
-import AnimatedBackground from "../components/AnimatedBackground";
 
-function BuyMeACoffeeButton() {
-  return (
-    <motion.a
-      className="buy-me-a-coffee-container"
-      href="https://buymeacoffee.com/itaihammer"
-      target="_blank"
-      rel="noopener noreferrer"
-      initial={{ y: 20, opacity: 0, scale: 0.95 }}
-      animate={{ y: 0, opacity: 1, scale: 1 }}
-      transition={{ duration: 0.5, delay: 1 }}
-    >
-      <img alt="Buy Me a Coffee" className="buy-me-a-coffee-icon" src={BuyMeACoffeeIcon} />
-    </motion.a>
-  );
-}
 
 function Analytics({ darkMode }) {
   const { key } = useParams();
@@ -88,7 +71,6 @@ function Analytics({ darkMode }) {
           </div>
         </motion.div>
       </div>
-      <BuyMeACoffeeButton />
     </>
   );
 }
