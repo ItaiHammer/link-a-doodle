@@ -59,6 +59,11 @@ if (isDev) {
   app.get('/', (req, res) => {
     res.redirect('http://localhost:3000');
   });
+} else {
+  // Production: redirect `/` to React build
+  app.get('/', (req, res) => {
+    res.sendFile(path.join(__dirname, '../frontend/build/index.html'));
+  });
 }
 
 // Production: catch-all to let React Router handle frontend routes
