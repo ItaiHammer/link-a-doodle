@@ -3,6 +3,7 @@ import { useState } from "react";
 import "./Input.css";
 
 export default function Input({ value, onChange, label, placeholder, icon, tooltipText, errorMessage }) {
+  const darkMode = localStorage.getItem("darkMode") == "true" ? true : false;
   const [showTooltip, setShowTooltip] = useState(false);
   const tooltipIcon = (
     <span
@@ -44,7 +45,7 @@ export default function Input({ value, onChange, label, placeholder, icon, toolt
         <label className="input-label">{label}</label>
         {tooltipText ? tooltipIcon : null}
       </div>
-      <div className={`input-wrapper ${errorMessage ? "problematic" : ""}`} style={{color: value === "" ? "#A8ADBD" : "#676E8B"}}>
+      <div className={`input-wrapper ${errorMessage ? "problematic" : ""}`} style={{color: darkMode ? value === "" ? "#3b414d" : "#757f95"  : value === "" ? "#A8ADBD" : "#676E8B"}}>
         {icon}
         <input
           type="text"

@@ -29,3 +29,8 @@
   font-optical-sizing: auto;
   font-weight: medium;
 }
+
+body.dark-mode .analytics-button {
+  background: #1c1e23;
+  color: #676E8B;
+}

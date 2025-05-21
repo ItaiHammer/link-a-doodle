@@ -26,10 +26,7 @@
     font-family: "Inter", sans-serif;
     font-weight: medium;
 
-
-body.dark-mode .input-label-container label {
-    color: #676E8B;
-}}
+}
 
 .input-wrapper {
     background: #F4F6F8;
@@ -47,6 +44,10 @@ body.dark-mode .input-label-container label {
     color: #A8ADBD;
 
     transition: border 0.2s ease-in-out;
+}
+
+body.dark-mode .input-wrapper {
+    background: #25282f;
 }
 
 .input-wrapper.problematic {
