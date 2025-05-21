@@ -63,3 +63,14 @@ body.dark-mode .card {
   width: inherit;
   height: inherit;
 }
+
+::selection {
+  background: #da667b;
+  color: #fff;
+}
+
+/* For WebKit browsers (Chrome, Safari) */
+::-webkit-selection {
+  background: #da667b;
+  color: #fff;
+}
