@@ -1,83 +1,43 @@
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import { motion } from "framer-motion";
 import { ReactComponent as Icon } from "../icons/icon.svg";
 import { ReactComponent as IconBlack } from "../icons/icon.svg";
+import QRCode from "react-qr-code";
 
-function AnimatedSubmitButton({ loading, success, onClick }) {
-  const buttonVariants = {
-    initial: {
-      width: "100%",
-      backgroundColor: "#DA667B",
-    },
-    loading: {
-      backgroundColor: "rgba(0, 0, 0, 0)",
-      transition: { duration: 0.3 },
-    },
-    success: {
-      backgroundColor: "#71816d",
-      transition: { duration: 0.3 },
-    },
-  };
+import "./Home.css";
 
-  const pulseAnimation = {
-    scale: [1, 1.2, 1],
-    transition: {
-      duration: 1,
-      repeat: Infinity,
-      ease: "easeInOut",
-    },
-  };
+// components
+import Textarea from "../components/Input";
+import PrimaryButton from "../components/PrimaryButton";
+import BackToGeneratingButton from "../components/BackToGeneratingButton";
 
-  return (
-    <motion.button
-      className="submit-button"
-      onClick={onClick}
-      variants={buttonVariants}
-      animate={loading ? "loading" : success ? "success" : "initial"}
-      initial="initial"
-    >
-      {loading ? (
-        <motion.div
-          className="loader"
-          style={{
-            width: 20,
-            height: 20,
-            borderRadius: "50%",
-            backgroundColor: "#DA667B",
-          }}
-          animate={pulseAnimation}
-        />
-      ) : success ? (
-        <svg width="24" height="24" viewBox="0 0 24 24">
-          <path
-            fill="#fff"
-            d="M9 16.17l-3.88-3.88L4 13.41 9 18.41l12-12-1.41-1.41z"
-          />
-        </svg>
-      ) : (
-        <>
-          <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 24 24"><path fill="#fff" d="M8.59 16.58L13.17 12L8.59 7.41L10 6l6 6l-6 6z"/></svg>
-          Shorten URL
-        </>
-      )}
-    </motion.button>
-  );
+function GenerateContent() {
+
 }
 
 function Home({ darkMode }) {
+  const navigate = useNavigate();
+
   const [customKey, setCustomKey] = useState("");
+  const [customKeyError, setCustomKeyError] = useState("");
+
   const [inputUrl, setInputUrl] = useState("");
+  const [inputUrlError, setInputUrlError] = useState("");
+
   const [shortUrl, setShortUrl] = useState("");
   const [loading, setLoading] = useState(false);
   const [success, setSuccess] = useState(false);
-  const [error, setError] = useState("");
 
   async function handleSubmit(e) {
     e.preventDefault();
     if (!inputUrl) return;
     setLoading(true);
-    setError("");
+    
+    setCustomKeyError("");
+    setInputUrlError("");
+
     setSuccess(false);
     try {
       console.groupCollapsed(
@@ -140,9 +100,8 @@ function Home({ darkMode }) {
       setSuccess(true);
       setInputUrl("");
       setCustomKey("");
-      setTimeout(() => {
-        setSuccess(false);
-      }, 2000);
+
+      navigate(`/generated/${response.data.key}`);
     } catch (err) {
       console.groupCollapsed(
         '%c╰─[ ❌ Shorten Request Failed ]─────────────╯',
@@ -170,19 +129,17 @@ function Home({ darkMode }) {
 
       console.groupEnd();
 
-      setError("Failed to shorten URL");
+      const errorMessage = err?.response?.data?.error;
+
+      if (errorMessage.toLowerCase().includes("url")) {
+        setInputUrlError(errorMessage);
+      } else if (errorMessage.toLowerCase().includes("key")){
+        setCustomKeyError(errorMessage);
+      }
+
       setLoading(false);
     }
 
-  }
-
-  function handleGetAnalytics(e) {
-    e.preventDefault();
-
-    const key = inputUrl.split("/").pop();
-    if (key) {
-      window.location.href = `/analytics/${key}`;
-    }
   }
 
   return (
@@ -204,43 +161,40 @@ function Home({ darkMode }) {
               <Icon className="logo" />
             )}
           </motion.div>
-
-          <form onSubmit={handleSubmit}>
-            <input
-              type="text"
-              placeholder="Enter your URL here"
+          <form className="home-form" onSubmit={handleSubmit}>
+            <Textarea
               value={inputUrl}
-              onChange={(e) => setInputUrl(e.target.value)}
+              onChange={setInputUrl}
+              label="Enter URL Here"
+              placeholder="Enter URL"
+              errorMessage={inputUrlError}
+              icon={<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"><circle cx="12" cy="12" r="10"/><ellipse cx="12" cy="12" rx="10" ry="4" transform="rotate(90 12 12)"/><path d="M2 12h20"/></g></svg>}
             />
-            <input
-              type="text"
-              placeholder="Custom Name (optional)"
+            <Textarea
               value={customKey}
-              onChange={(e) => setCustomKey(e.target.value)}
+              onChange={setCustomKey}
+              label="Doodle Name (optional)"
+              placeholder="Custom Name"
+              errorMessage={customKeyError}
+              icon={<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"><path d="M12.586 2.586A2 2 0 0 0 11.172 2H4a2 2 0 0 0-2 2v7.172a2 2 0 0 0 .586 1.414l8.704 8.704a2.426 2.426 0 0 0 3.42 0l6.58-6.58a2.426 2.426 0 0 0 0-3.42z"/><circle cx="7.5" cy="7.5" r=".5" fill="currentColor"/></g></svg>}
             />
-            <AnimatedSubmitButton
-              loading={loading}
-              success={success}
-              onClick={handleSubmit}
+            <PrimaryButton
+              icon={<svg xmlns="http://www.w3.org/2000/svg" width="35" height="35" viewBox="0 0 24 24"><path fill="currentColor" d="M9.31 6.71a.996.996 0 0 0 0 1.41L13.19 12l-3.88 3.88a.996.996 0 1 0 1.41 1.41l4.59-4.59a.996.996 0 0 0 0-1.41L10.72 6.7c-.38-.38-1.02-.38-1.41.01"/></svg>}
             />
-            <button
-              className="analytics-button"
-              onClick={handleGetAnalytics}
-            >
-              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><g fill="none" stroke={darkMode ? "#fff" : "#787f98"} stroke-linecap="round" stroke-linejoin="round" stroke-width="2"><path d="M3.5 4v13.5a3 3 0 0 0 3 3H20"/><path d="m6.5 15l4.5-4.5l3.5 3.5L20 8.5"/></g></svg>
-              Get Analytics
-            </button>
           </form>
-          {error && <p className="error">{error}</p>}
-          {shortUrl && (
-            <div className="result">
-              <p>Your shortened URL:</p>
-              <a href={shortUrl} target="_blank" rel="noopener noreferrer">
-                {shortUrl}
-              </a>
-            </div>
-          )}
         </motion.div>
+
+        <motion.button
+          className="analytics-button"
+          onClick={()=> navigate("/analytics")}
+
+          initial={{ opacity: 0, scale: 0.95 }}
+          animate={{ opacity: 1, scale: 1 }}
+          transition={{ duration: 0.5, delay: 0.4 }}
+        >
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24"><path fill="currentColor" d="M6 13H2c-.6 0-1 .4-1 1v8c0 .6.4 1 1 1h4c.6 0 1-.4 1-1v-8c0-.6-.4-1-1-1m16-4h-4c-.6 0-1 .4-1 1v12c0 .6.4 1 1 1h4c.6 0 1-.4 1-1V10c0-.6-.4-1-1-1m-8-8h-4c-.6 0-1 .4-1 1v20c0 .6.4 1 1 1h4c.6 0 1-.4 1-1V2c0-.6-.4-1-1-1"/></svg>
+          Check Analytics
+        </motion.button>
       </div>
     </>
   );

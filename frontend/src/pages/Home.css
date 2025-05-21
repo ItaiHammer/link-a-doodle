@@ -1,0 +1,31 @@
+.home-form {
+  width: 100%;
+
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.analytics-button {
+  width: 157px;
+  height: 32px;
+  background: #FFFFFF;
+  border-radius: 53px;
+
+  cursor: pointer;
+  outline: none;
+  border: none;
+  padding: 16px;
+
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  
+  color: #676E8B;
+  font-size: 13px;
+  font-family: "Inter", sans-serif;
+  font-optical-sizing: auto;
+  font-weight: medium;
+}

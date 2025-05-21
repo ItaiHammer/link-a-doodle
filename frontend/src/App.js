@@ -7,8 +7,10 @@ import { useState, useEffect } from "react";
 import BuyMeACoffeeButton from "./components/BuyMeACoffeeButton";
 
 // pages
-import Home from "./pages/Home";
-import Analytics from "./pages/Analytics";
+import HomePage from "./pages/Home";
+import AnalyzePage from "./pages/AnalyzePage";
+import AnalyticsPage from "./pages/AnalyticsPage";
+import GeneratedPage from "./pages/GeneratedPage";
 import ErrorPage from "./pages/ErrorPage";
 
 function App() {
@@ -45,9 +47,10 @@ function App() {
       <BuyMeACoffeeButton />
       <Router>
         <Routes>
-          <Route path="/" element={<Home darkMode={darkMode} />} />
-          <Route path="/analytics/:key" element={<Analytics darkMode={darkMode} />} />
-          <Route path="/analyze/:key" element={<Analytics darkMode={darkMode} />} />
+          <Route path="/" element={<HomePage darkMode={darkMode} />} />
+          <Route path="/analytics/:key" element={<AnalyzePage darkMode={darkMode} />} />
+          <Route path="/analytics/" element={<AnalyticsPage darkMode={darkMode} />} />
+          <Route path="/generated/:key" element={<GeneratedPage darkMode={darkMode} />} />
           <Route path="/error" element={<ErrorPage darkMode={darkMode} />} />
           <Route path="/*" element={<ErrorPage darkMode={darkMode} />} />
         </Routes>

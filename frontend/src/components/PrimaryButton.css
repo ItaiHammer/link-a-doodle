@@ -1,0 +1,24 @@
+.primary-button {
+    width: 100%;
+    height: 52px;
+    border-radius: 52px;
+
+    border: none;
+    margin-top: 4px;
+
+    cursor: pointer;
+
+    align-self: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+
+    color: #fff;
+    font-size: 15px;
+    font-family: "Inter", sans-serif;
+    font-optical-sizing: auto;
+    font-weight: bold;
+    
+    transition: all 0.2s ease-in-out;
+}

@@ -1,0 +1,19 @@
+.dark-mode-toggle {
+    width: 40px;
+    height: 40px;
+
+    position: fixed;
+    top: 20px;
+    right: 20px;
+
+    border: none;
+    border-radius: 20px;
+
+    cursor: pointer;
+    
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    z-index: 200;
+}
