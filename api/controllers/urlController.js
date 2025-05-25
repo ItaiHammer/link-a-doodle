@@ -1,8 +1,8 @@
 import isUrlHttp from 'is-url-http';
 import Link from '../models/Link.js';
-import {nanoid} from 'nanoid';
+import { nanoid } from 'nanoid';
 
-const reserved = ['analytics', 'shorten', 'analyze', 'error', 'api'];
+const reserved = ['analytics', 'analyze', 'error', 'api'];
 
 /** 
  * @description Creates a key for the given URL and saves both to the database
@@ -12,11 +12,11 @@ const reserved = ['analytics', 'shorten', 'analyze', 'error', 'api'];
  * @returns {Object} - The shortened URL key
 */
 export async function shortenUrl(req, res) {
-    const { redirectUrl, customKey } = req.body;
+    const { redirectUrl, customKey, ownerAddress } = req.body;
 
     // Check if the redirectUrl is provided and is a valid HTTP URL
     if (!redirectUrl || !isUrlHttp(redirectUrl)) {
-        return res.status(400).json({error: 'No or invalid URL provided'});
+        return res.status(400).json({ error: 'Invalid URL provided' });
     }
 
     // Check and use customKey if provided
@@ -24,17 +24,17 @@ export async function shortenUrl(req, res) {
     if (customKey) {
         // Check if customKey matches a reserved route
         if (reserved.includes(customKey.toLowerCase())) {
-            return res.status(400).json({error: 'Custom key is a reserved route'});
+            return res.status(400).json({ error: 'Custom key is an internal route' });
         }
     
         // Check if customKey matches specified format
-        if (!/^[a-zA-Z0-9_-]{3,30}$/.test(customKey)) {
-            return res.status(400).json({error: 'Custom key does not follow the format'});
+        if (!/^[a-zA-Z0-9_-]{1,15}$/.test(customKey)) {
+            return res.status(400).json({ error: 'Custom key does not follow the format' });
         }
 
-        const exists = await Link.exists({key: customKey});
+        const exists = await Link.exists({ key: customKey });
         if (exists) {
-            return res.status(400).json({error: 'Custom key already exists'});
+            return res.status(400).json({ error: 'Custom key already exists' });
         }
 
         key = customKey;
@@ -44,6 +44,7 @@ export async function shortenUrl(req, res) {
     await Link.create({
         key,
         redirectUrl,
+        ownerAddress,
     });
 
     return res.status(201).json({key});
@@ -66,62 +67,39 @@ async function generateUniqueKey(length) {
     return key;
 }
 
-/**
- * @description Redirects to the saved URL based on the provided key
- * 
- * @param {Object} req - The request object containing the key to look up
- * @param {Object} res - The response object to redirect to the saved URL
- * @returns {void}
-*/
-export async function redirectUrl(req, res) {
-    const {id} = req.params;
+export async function checkKeyExists(req, res) {
+    const { key } = req.params;
 
-    try {
-        // Find the link in the database
-        const link = await Link.findOne({key: id});
-
-        // If the link is not found, return a 404 error
-        if (!link) {
-            return res.status(404).json({error: 'Link not found'});
-        }
-
-        // Track Analytics (ip address and timestamp)
-        const ip = req.headers['x-forwarded-for'] || req.socket.remoteAddress;
-
-        link.clicks.push({timestamp: new Date(), ip});
-        await link.save();
-
-        return res.redirect(link.redirectUrl);
-    } catch (error) {
-        return res.status(500).json({error: 'Server Error'});
+    if (!key) {
+        return res.status(400).json({ error: 'Key not provided' });
     }
+
+    // Parse to get just the key
+    key = key.split('/').pop();
+
+    const exists = await Link.exists({ key });
+    res.json({ exists });
 }
 
-/**
- * 
- * @description Retrieves the analytics for a given key
- * @param {Object} req - The request object containing the key to look up
- * @param {Object} res - The response object to send the analytics data
- * @returns {Object} - The analytics data for the key
-*/
-export async function getUrlAnalytics(req, res) {
-    const {id} = req.params;
+export async function checkOwnership(req, res) {
+    const { key } = req.params;
+    const { clientAddress } = req.body;
+    
+    if (!clientAddress) {
+        return res.status(200).json({ isOwner: false });
+    }
 
     try {
-        // Find the link in the database
-        const link = await Link.findOne({key: id});
+        const link = await Link.findOne({ key });
 
-        // If the link is not found, return a 404 error
         if (!link) {
-            return res.status(404).json({error: 'Link not found'});
+            return res.status(404).json({ error: 'Link not found in database' });
         }
 
-        return res.json({
-            createdAt: link.createdAt,
-            totalClicks: link.clicks.length,
-            clicks: link.clicks,
-        });
+        const isOwner = link.ownerAddress === clientAddress;
+
+        return res.status(200).json({ isOwner });
     } catch (error) {
-        return res.status(500).json({error: 'Server Error'});
+        return res.status(500).json({ error: 'Server Error' });
     }
 }
