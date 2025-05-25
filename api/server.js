@@ -1,6 +1,7 @@
 import express from 'express';
 import dotenv from 'dotenv';
 import urlRoutes from './routes/urlRoutes.js';
+import analyticsRoutes from './routes/analyticsRoutes.js';
 import mongoose from 'mongoose';
 import cors from 'cors';
 import Link from './models/Link.js'; // Make sure this import exists!
@@ -29,6 +30,9 @@ app.use(express.json());
 
 // API routes
 app.use('/api/url', urlRoutes);
+app.use('/api/analytics', analyticsRoutes);
+
+app.set('trust proxy', true);
 
 // Production: Serve React build files
 if (!isDev) {
@@ -36,16 +40,32 @@ if (!isDev) {
 }
 
 // Short link redirect — ONLY if ID is valid
-app.get('/:id', async (req, res) => {
-  const { id } = req.params;
+app.get('/:key', async (req, res) => {
+  const { key } = req.params;
 
   try {
-    const link = await Link.findOne({ key: id });
+    const link = await Link.findOne({ key });
 
     if (!link) return res.redirect('/error'); 
 
-    const ip = req.headers['x-forwarded-for'] || req.socket.remoteAddress;
-    link.clicks.push({ timestamp: new Date(), ip });
+    const ip = req.headers['x-forwarded-for']?.split(',')[0] || req.ip;
+
+    const response = await fetch(`https://freeipapi.com/api/json/${ip}`);
+    const locationData = await response.json();
+
+    // Rounds coordinates to 1 decimal place
+    const latitude = Math.round(locationData.latitude * 10) / 10;
+    const longitude = Math.round(locationData.longitude * 10) / 10;
+
+    const location = {
+      country: locationData.countryName,
+      region: locationData.regionName,
+      city: locationData.cityName,
+      latitude,
+      longitude
+    }
+
+    link.clicks.push({ timestamp: new Date(), location });
     await link.save();
 
     return res.redirect(link.redirectUrl);

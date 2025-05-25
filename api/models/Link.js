@@ -5,7 +5,13 @@ const clickSchema = new mongoose.Schema({
         type: Date,
         default: Date.now,
     },
-    ipAddress: String,
+    location: {
+        country: String,
+        region: String,
+        city: String,
+        latitude: Number,
+        longitude: Number,
+    },
 });
 
 const linkSchema = new mongoose.Schema({
@@ -23,6 +29,9 @@ const linkSchema = new mongoose.Schema({
         default: Date.now,
     },
     clicks: [clickSchema],
+    ownerAddress: {
+        type: String
+    },
 });
 
 export default mongoose.model('Link', linkSchema);
