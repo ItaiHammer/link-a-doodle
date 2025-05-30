@@ -12,7 +12,7 @@ const reserved = ['analytics', 'analyze', 'error', 'api'];
  * @returns {Object} - The shortened URL key
 */
 export async function shortenUrl(req, res) {
-    const { redirectUrl, customKey, ownerAddress } = req.body;
+    const { redirectUrl, customKey } = req.body;
 
     // Check if the redirectUrl is provided and is a valid HTTP URL
     if (!redirectUrl || !isUrlHttp(redirectUrl)) {
@@ -39,6 +39,8 @@ export async function shortenUrl(req, res) {
 
         key = customKey;
     } else {key = await generateUniqueKey(4);}
+
+    const ownerAddress = req.headers['x-forwarded-for']?.split(',')[0] || req.ip;
 
     // Add the key and redirectURL to the database
     await Link.create({
