@@ -40,6 +40,7 @@ export async function shortenUrl(req, res) {
         key = customKey;
     } else {key = await generateUniqueKey(4);}
 
+    // Get the link creator's IP address
     const ownerAddress = req.headers['x-forwarded-for']?.split(',')[0] || req.ip;
 
     // Add the key and redirectURL to the database
@@ -85,12 +86,15 @@ export async function checkKeyExists(req, res) {
 
 export async function checkOwnership(req, res) {
     const { key } = req.params;
-    const { clientAddress } = req.body;
+
+    // Get client's IP address
+    const clientAddress = req.headers['x-forwarded-for']?.split(',')[0] || req.ip;
     
     if (!clientAddress) {
         return res.status(200).json({ isOwner: false });
     }
 
+    // Try to find link in the database and check if the client is the owner
     try {
         const link = await Link.findOne({ key });
 
