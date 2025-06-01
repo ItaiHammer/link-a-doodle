@@ -9,7 +9,7 @@
 .analytics-button {
   width: 157px;
   height: 32px;
-  background: #FFFFFF;
+  background: #ffffff;
   border-radius: 53px;
 
   cursor: pointer;
@@ -22,8 +22,8 @@
   align-items: center;
   justify-content: center;
   gap: 8px;
-  
-  color: #676E8B;
+
+  color: #676e8b;
   font-size: 13px;
   font-family: "Inter", sans-serif;
   font-optical-sizing: auto;
@@ -32,5 +32,123 @@
 
 body.dark-mode .analytics-button {
   background: #1c1e23;
-  color: #676E8B;
+  color: #676e8b;
+}
+
+.home-sucess-menu {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.home-sucess-menu-seperator {
+  background-color: #f0f0f0;
+  width: 100%;
+  height: 2px;
+  border-radius: 50px;
+  margin: 24px 0 0 0;
+}
+
+.generate-sucess-menu-link-bar-container {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  gap: 12px;
+}
+
+.generate-sucess-menu-link-bar {
+  background: #f4f6f8;
+  height: 40px;
+  width: 90%;
+
+  border-radius: 15px;
+  padding: 0 0 0 15px;
+
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+
+  color: #747474;
+  font-size: 12px;
+  font-family: "Inter", sans-serif;
+  font-optical-sizing: auto;
+  font-weight: medium;
+}
+
+.generate-sucess-menu-link-bar span {
+  color: #74747480;
+  font-weight: regular;
+}
+
+.generate-sucess-menu-link-copy-button {
+  background: #da667b;
+  height: 32px;
+  width: 32px;
+
+  border: none;
+  border-radius: 8px;
+  outline: none;
+  cursor: pointer;
+
+  color: white;
+}
+
+.home-sucess-menu-qr-code-bar {
+  width: 100%;
+
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  align-items: center;
+}
+
+.home-qr-code-button {
+  background: #fff;
+  width: 112px;
+  height: 112px;
+
+  padding: 17px;
+  outline: none;
+  border: none;
+  border-radius: 20px;
+  cursor: pointer;
+
+  filter: drop-shadow(0px 0px 4px rgba(0, 0, 0, 0.25));
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+body.dark-mode .home-qr-code-button {
+  background: #1c1e23;
+  border: #2f373d 1px solid;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
+}
+
+.home-qr-code-button > div canvas {
+  width: 90px;
+  height: 90px;
+}
+
+.home-qr-code-customization-buttons-container {
+  width: 96px;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 16px;
+}
+
+.home-qr-code-customization-buttons {
+  background: #f7f7f7;
+  width: 40px;
+  height: 40px;
+
+  border: 2px solid #a2a1a1;
+  border-radius: 5px;
+  outline: none;
+  cursor: pointer;
 }
