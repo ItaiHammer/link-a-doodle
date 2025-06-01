@@ -109,3 +109,38 @@ export async function checkOwnership(req, res) {
         return res.status(500).json({ error: 'Server Error' });
     }
 }
+
+export async function changeKey(req, res) {
+    const { key } = req.params;
+    const { newKey } = req.body;
+
+    // Check if newKey matches a reserved route
+    if (reserved.includes(newKey.toLowerCase())) {
+        return res.status(400).json({ error: 'New key is an internal route' });
+    }
+
+    // Check if newKey matches specified format
+    if (!/^[a-zA-Z0-9_-]{1,15}$/.test(newKey)) {
+        return res.status(400).json({ error: 'New key does not follow the format' });
+    }
+
+    // Check if newKey already exists
+    const exists = await Link.exists({ key: newKey });
+    if (exists) {
+        return res.status(400).json({ error: 'New key already exists' });
+    }
+
+    
+    const link = await Link.findOne({ key });
+
+    // Check original key exists
+    if (!link) {
+        return res.status(404).json({ error: 'Original key not found' });
+    }
+
+    // Update the key in the database
+    link.key = newKey;
+    await link.save();
+
+    return res.status(200).json({ message: 'Key changed successfully', newKey });
+}
