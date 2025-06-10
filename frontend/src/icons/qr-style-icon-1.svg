@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg id="Sharp_QR_Icon" data-name="Sharp QR Icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 706.21 697.27">
+  <defs>
+    <style>
+      .cls-1 {
+        fill: #231f20;
+      }
+    </style>
+  </defs>
+  <rect class="cls-1" x="178.79" y="175.81" width="351.62" height="172.83"/>
+  <rect class="cls-1" x="354.6" width="175.81" height="175.81"/>
+  <rect class="cls-1" y="348.64" width="178.79" height="175.81"/>
+  <rect class="cls-1" x="530.4" y="348.64" width="175.81" height="175.81"/>
+  <rect class="cls-1" x="178.79" y="524.44" width="351.62" height="172.83"/>
+</svg>
