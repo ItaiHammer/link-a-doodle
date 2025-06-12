@@ -31,7 +31,7 @@ If you find this project helpful, please consider starring it on GitHub. Your su
 
 ## 📖 About
 
-<img src="assets/demo2.gif" alt="App Demo" width="400" height="200" style="border-radius: 10px;">
+<img src="assets/demo2.gif" alt="App Demo" width="100%" style="border-radius: 10px;">
 
 A sleek, modern URL shortener that makes sharing links simple.
 
